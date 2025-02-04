@@ -1,4 +1,4 @@
-# 🥖 Projet Boulangerie - Site Web
+# 🥖 Site Web pour boulangerie
 
 ## 📌 Description
 Ce projet a pour objectif de développer un site web pour une boulangerie afin de présenter ses produits, son histoire et d'inclure une partie administrateur pour la gestion des commandes.
