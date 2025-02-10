@@ -24,7 +24,7 @@ Le projet est basé sur une architecture **Vue.js (Front-end) / Symfony (Back-en
 
 ## 📂 Structure du Projet
 ```
-📦 boulangerie-project
+📦 Bakery
 ├── 📂 backend (Symfony API)
 │   ├── src
 │   ├── config
@@ -53,7 +53,7 @@ cd frontend
 npm run dev
 ```
 3. **Accéder à l'application :**
-   - **Front-end** : `http://localhost:5173/`
+   - **Front-end** : `http://localhost:3000/`
    - **Back-end API** : `http://localhost:8000/`
 
 ---
