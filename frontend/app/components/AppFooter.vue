@@ -1,79 +1,111 @@
-<script setup lang="ts">
-const items = shallowRef([
-  {
-    title: 'Vuetify Documentation',
-    icon: `$vuetify`,
-    href: 'https://vuetifyjs.com/',
-  },
-  {
-    title: 'Vuetify Support',
-    icon: 'mdi-shield-star-outline',
-    href: 'https://support.vuetifyjs.com/',
-  },
-  {
-    title: 'Vuetify X',
-    icon: ['M2.04875 3.00002L9.77052 13.3248L1.99998 21.7192H3.74882L10.5519 14.3697L16.0486 21.7192H22L13.8437 10.8137L21.0765 3.00002H19.3277L13.0624 9.76874L8.0001 3.00002H2.04875ZM4.62054 4.28821H7.35461L19.4278 20.4308H16.6937L4.62054 4.28821Z'],
-    href: 'https://x.com/vuetifyjs',
-  },
-  {
-    title: 'Vuetify GitHub',
-    icon: `mdi-github`,
-    href: 'https://github.com/vuetifyjs/vuetify',
-  },
-  {
-    title: 'Vuetify Discord',
-    icon: ['M22,24L16.75,19L17.38,21H4.5A2.5,2.5 0 0,1 2,18.5V3.5A2.5,2.5 0 0,1 4.5,1H19.5A2.5,2.5 0 0,1 22,3.5V24M12,6.8C9.32,6.8 7.44,7.95 7.44,7.95C8.47,7.03 10.27,6.5 10.27,6.5L10.1,6.33C8.41,6.36 6.88,7.53 6.88,7.53C5.16,11.12 5.27,14.22 5.27,14.22C6.67,16.03 8.75,15.9 8.75,15.9L9.46,15C8.21,14.73 7.42,13.62 7.42,13.62C7.42,13.62 9.3,14.9 12,14.9C14.7,14.9 16.58,13.62 16.58,13.62C16.58,13.62 15.79,14.73 14.54,15L15.25,15.9C15.25,15.9 17.33,16.03 18.73,14.22C18.73,14.22 18.84,11.12 17.12,7.53C17.12,7.53 15.59,6.36 13.9,6.33L13.73,6.5C13.73,6.5 15.53,7.03 16.56,7.95C16.56,7.95 14.68,6.8 12,6.8M9.93,10.59C10.58,10.59 11.11,11.16 11.1,11.86C11.1,12.55 10.58,13.13 9.93,13.13C9.29,13.13 8.77,12.55 8.77,11.86C8.77,11.16 9.28,10.59 9.93,10.59M14.1,10.59C14.75,10.59 15.27,11.16 15.27,11.86C15.27,12.55 14.75,13.13 14.1,13.13C13.46,13.13 12.94,12.55 12.94,11.86C12.94,11.16 13.45,10.59 14.1,10.59Z'],
-    href: 'https://community.vuetifyjs.com/',
-  },
-  {
-    title: 'Vuetify Reddit',
-    icon: `mdi-reddit`,
-    href: 'https://reddit.com/r/vuetifyjs',
-  },
-])
-</script>
-
 <template>
-  <v-footer height="40" app>
-    <NuxtLink
-      v-for="item in items"
-      :key="item.title"
-      :href="item.href"
-      :title="item.title"
-      class="d-inline-block mx-2 social-link"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      <v-icon
-        :icon="item.icon"
-        :size="item.icon === '$vuetify' ? 24 : 16"
-      />
-    </NuxtLink>
+  <footer class="footer">
+    <v-container>
+      <v-row class="align-center">
+        <!-- Colonne de gauche : Adresse, Téléphone & Bouton Contact -->
+        <v-col cols="12" md="5" class="footer-info">
+          <h3>Boulogne sur mer</h3>
+          <p>87 rue faidherbe, 62200</p>
 
-    <div
-      class="text-caption text-disabled"
-      style="position: absolute; right: 16px;"
-    >
-      &copy; 2016-{{ (new Date()).getFullYear() }} <span class="d-none d-sm-inline-block">Vuetify, LLC</span>
-      —
-      <NuxtLink
-        class="text-decoration-none on-surface"
-        href="https://vuetifyjs.com/about/licensing/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        MIT License
-      </NuxtLink>
-    </div>
-  </v-footer>
+          <h3>Contact</h3>
+          <p>📞 <a href="tel:+33123456789">01 23 45 67 89</a></p>
+
+          <!-- Bouton Contactez-nous -->
+          <v-btn class="contact-btn" to="/contact">
+            Contactez-nous
+          </v-btn>
+        </v-col>
+
+        <!-- Colonne de droite : Google Maps + Réseaux sociaux -->
+        <v-col cols="12" md="5" class="footer-map">
+          <!-- Placeholder Google Maps -->
+          <div class="map-placeholder"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2525.683128507884!2d1.603613076758401!3d50.72581757164603!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47dc2c41537ea3e7%3A0xca7247ec9e59a43c!2sMaison%20Musial!5e0!3m2!1sfr!2sfr!4v1739183017915!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+
+          <!-- Icônes Réseaux Sociaux -->
+          <div class="social-icons">
+            <a href="https://www.instagram.com" target="_blank">
+              <v-icon size="26">mdi-instagram</v-icon>
+            </a>
+            <a href="https://www.facebook.com" target="_blank">
+              <v-icon size="26">mdi-facebook</v-icon>
+            </a>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
+  </footer>
 </template>
 
-<style scoped lang="sass">
-  .social-link :deep(.v-icon)
-    color: rgba(var(--v-theme-on-background), var(--v-disabled-opacity))
-    text-decoration: none
-    transition: .2s ease-in-out
+<style scoped>
+.footer {
+  background-color: rgba(81, 42, 22, 0.8);
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
 
-    &:hover
-      color: rgba(25, 118, 210, 1)
+.footer-info h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.footer-info p {
+  font-size: 14px;
+  margin: 2px 0;
+}
+
+.footer-info a {
+  color: white;
+  text-decoration: none;
+}
+
+.contact-btn {
+  margin-top: 8px;
+  transition: transform 0.3s ease-in-out; /* Animation fluide */
+  background-color: orange;
+  color: white;
+  font-size: 14px;
+  padding: 5px 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.contact-btn:hover {
+  background-color: #e69500;
+  transform: scale(1.1); /* Zoom léger au survol */
+}
+
+.footer-map {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.map-placeholder {
+  width: 100%;
+  height: 150px;
+  background: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #444;
+  border-radius: 8px;
+}
+
+.social-icons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.social-icons a {
+  color: white;
+  transition: transform 0.3s;
+}
+
+.social-icons a:hover {
+  transform: scale(1.1);
+}
 </style>
