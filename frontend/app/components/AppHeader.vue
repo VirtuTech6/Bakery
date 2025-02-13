@@ -8,7 +8,7 @@
     <!-- Logo -->
     <v-col cols="8" md="4" class="logo-container">
       <nuxt-link to="/" class="logo-link">
-        <img src="/assets/LogoWhite.png" alt="Logo" >
+        <img src="/assets/LogoWhite.png" alt="Logo">
       </nuxt-link>
     </v-col>
 
@@ -62,12 +62,12 @@ const drawer = ref(false);
 
 const menuItems = [
   { text: 'Notre histoire', link: '/history' },
-  { text: 'Nos produits', link: '/services' },
+  { text: 'Nos produits', link: '/produits' },
   { text: 'Contact', link: '/contact' }
 ];
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 /* Centrer le menu en desktop et l'amener un peu vers la gauche */
 .desktop-menu {
   display: flex;

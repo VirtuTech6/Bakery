@@ -19,7 +19,10 @@
         <!-- Colonne de droite : Google Maps + Réseaux sociaux -->
         <v-col cols="12" md="5" class="footer-map">
           <!-- Placeholder Google Maps -->
-          <div class="map-placeholder"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2525.683128507884!2d1.603613076758401!3d50.72581757164603!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47dc2c41537ea3e7%3A0xca7247ec9e59a43c!2sMaison%20Musial!5e0!3m2!1sfr!2sfr!4v1739183017915!5m2!1sfr!2sfr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+          <div class="map-placeholder"><iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2525.683128507884!2d1.603613076758401!3d50.72581757164603!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47dc2c41537ea3e7%3A0xca7247ec9e59a43c!2sMaison%20Musial!5e0!3m2!1sfr!2sfr!4v1739183017915!5m2!1sfr!2sfr"
+              width="100%" height="100%" style="border:0;" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe></div>
 
           <!-- Icônes Réseaux Sociaux -->
           <div class="social-icons">
@@ -36,7 +39,7 @@
   </footer>
 </template>
 
-<style scoped>
+<style lang="css" scoped>
 .footer {
   background-color: rgba(81, 42, 22, 0.8);
   color: white;
@@ -61,7 +64,8 @@
 
 .contact-btn {
   margin-top: 8px;
-  transition: transform 0.3s ease-in-out; /* Animation fluide */
+  transition: transform 0.3s ease-in-out;
+  /* Animation fluide */
   background-color: orange;
   color: white;
   font-size: 14px;
@@ -72,7 +76,8 @@
 
 .contact-btn:hover {
   background-color: #e69500;
-  transform: scale(1.1); /* Zoom léger au survol */
+  transform: scale(1.1);
+  /* Zoom léger au survol */
 }
 
 .footer-map {
