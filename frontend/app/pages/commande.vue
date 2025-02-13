@@ -86,6 +86,7 @@
 
   <style scoped>
   .page-container {
+    min-height: calc(100vh - 200px); /* Ajuste la hauteur pour coller le footer en bas */
     margin-top: 60px;
   }
 
