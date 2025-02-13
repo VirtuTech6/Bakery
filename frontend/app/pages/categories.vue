@@ -22,10 +22,10 @@
 
 <script setup>
 const categories = [
-  { title: 'Nos pains', image: '/produits/pains.png', link: '/produits/pains' },
-  { title: 'Nos viennoiseries', image: '/produits/viennoiseries.png', link: '/produits/viennoiseries' },
-  { title: 'Nos pâtisseries', image: '/produits/patisseries.png', link: '/produits/patisseries' },
-  { title: 'Nos sandwichs', image: '/produits/sandwichs.png', link: '/produits/sandwichs' },
+  { title: 'Nos pains', image: '/categories/pains.png', link: '/commande' },
+  { title: 'Nos viennoiseries', image: '/categories/viennoiseries.png', link: '/commande' },
+  { title: 'Nos pâtisseries', image: '/categories/patisseries.png', link: '/commande' },
+  { title: 'Nos sandwichs', image: '/categories/sandwichs.png', link: '/commande' },
 ];
 </script>
 

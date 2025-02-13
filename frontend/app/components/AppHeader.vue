@@ -14,22 +14,17 @@
 
     <!-- Menu Desktop (espacé et légèrement à gauche) -->
     <div class="desktop-menu d-none d-md-flex">
-      <nuxt-link 
-        v-for="item in menuItems" 
-        :key="item.text" 
-        :to="item.link" 
-        class="nav-link"
-      >
+      <nuxt-link v-for="item in menuItems" :key="item.text" :to="item.link" class="nav-link">
         {{ item.text }}
       </nuxt-link>
     </div>
     <v-spacer></v-spacer> <!-- Permet d'envoyer les icônes à droite -->
-  <!-- Icônes Mon compte et Panier -->
+    <!-- Icônes Mon compte et Panier -->
     <div class="icons">
       <nuxt-link to="/account">
         <v-btn icon>
-         <v-icon>mdi-account-circle</v-icon>
-       </v-btn>
+          <v-icon>mdi-account-circle</v-icon>
+        </v-btn>
       </nuxt-link>
       <nuxt-link to="/cart">
         <v-btn icon>
@@ -37,22 +32,17 @@
         </v-btn>
       </nuxt-link>
     </div>
-  </v-app-bar>  
+  </v-app-bar>
 
   <!-- Menu Burger (Drawer) -->
-<v-navigation-drawer v-model="drawer" temporary color="white">
-  <v-list>
-    <v-list-item 
-      v-for="item in menuItems" 
-      :key="item.text" 
-      :to="item.link" 
-      @click="drawer = false"
-      class="drawer-item"
-    >
-      {{ item.text }}
-    </v-list-item>
-  </v-list>
-</v-navigation-drawer>
+  <v-navigation-drawer v-model="drawer" temporary color="white">
+    <v-list>
+      <v-list-item v-for="item in menuItems" :key="item.text" :to="item.link" @click="drawer = false"
+        class="drawer-item">
+        {{ item.text }}
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script setup>
@@ -62,7 +52,7 @@ const drawer = ref(false);
 
 const menuItems = [
   { text: 'Notre histoire', link: '/history' },
-  { text: 'Nos produits', link: '/produits' },
+  { text: 'Nos produits', link: '/categories' },
   { text: 'Contact', link: '/contact' }
 ];
 </script>
@@ -71,7 +61,8 @@ const menuItems = [
 /* Centrer le menu en desktop et l'amener un peu vers la gauche */
 .desktop-menu {
   display: flex;
-  gap: 80px; /* Augmente l'espacement entre les éléments */
+  gap: 80px;
+  /* Augmente l'espacement entre les éléments */
 }
 
 
@@ -99,7 +90,8 @@ const menuItems = [
 }
 
 .nav-link:hover {
-  color: #ffcc80; /* Légère variation de couleur */
+  color: #ffcc80;
+  /* Légère variation de couleur */
 }
 
 .nav-link:hover::after {
@@ -108,7 +100,8 @@ const menuItems = [
 
 /* Style des liens dans le menu burger */
 .drawer-item {
-  color: #555; /* Gris */
+  color: #555;
+  /* Gris */
   font-size: 18px;
   font-weight: 500;
   transition: background 0.3s ease-in-out;
@@ -116,7 +109,8 @@ const menuItems = [
 
 /* Effet de survol */
 .drawer-item:hover {
-  background-color: #f5f5f5; /* Gris clair */
+  background-color: #f5f5f5;
+  /* Gris clair */
 }
 
 /* Icônes Mon Compte et Panier */
@@ -158,7 +152,7 @@ const menuItems = [
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%; /* S'assure que le conteneur prend toute la hauteur du header */
+  height: 100%;
+  /* S'assure que le conteneur prend toute la hauteur du header */
 }
-
 </style>
