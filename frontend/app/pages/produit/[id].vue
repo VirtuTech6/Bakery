@@ -10,6 +10,7 @@
       <v-col cols="12" md="6">
         <h1 class="text-h4 font-weight-bold mb-2">{{ product.name }}</h1>
         <p class="text-body-1 text-grey-darken-1 mb-4">{{ product.description }}</p>
+        <p class="text-h5 font-weight-bold mb-4">{{ product.price }}€</p>
         
         <h3 class="text-h6 font-weight-bold">Ingrédients</h3>
         <v-chip-group class="mb-4">
@@ -53,7 +54,7 @@ const products = [
   { id: '1', name: 'Pain de campagne', description: 'Un délicieux pain rustique.', price: 2.5, image: '/produits/paindecampagne.jpeg', ingredients: ['Farine', 'Eau', 'Sel', 'Levure'], category: 'pains' },
   { id: '2', name: 'Brioche', description: 'Une brioche moelleuse et sucrée.', price: 3.2, image: '/produits/brioche.jpeg', ingredients: ['Farine', 'Beurre', 'Oeufs', 'Sucre'], category: 'viennoiseries' },
   { id: '3', name: 'Chocolatine', description: 'Un classique du petit déjeuner.', price: 1.8, image: '/produits/painauchocolat.jpeg', ingredients: ['Farine', 'Beurre', 'Chocolat', 'Sucre'], category: 'viennoiseries' },
-  { id: '4', name: 'Sandwich jambon beurre', description: 'Un sandwich simple et efficace.', price: 4.5, image: '/produits/sandwich.jpeg', ingredients: ['Pain', 'Jambon', 'Beurre'], category: 'sandwichs' },
+  { id: '4', name: 'Fougasse', description: 'Un sandwich simple et efficace.', price: 4.5, image: '/produits/fougasse.jpeg', ingredients: ['Pain', 'Jambon', 'Beurre'], category: 'sandwichs' },
 ];
 
 const product = computed(() => products.find(p => p.id === productId) || {});
