@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar density="comfortable" style="background-color: rgba(81, 42, 22, 0.8);">
+  <v-app-bar density="comfortable" style="background-color: rgba(0, 0, 0, 0.9);">
     <!-- Icône du menu burger (visible seulement en mobile) -->
     <v-btn icon @click="drawer = !drawer" class="d-md-none">
       <v-icon>{{ drawer ? 'mdi-close' : 'mdi-menu' }}</v-icon>
@@ -12,7 +12,7 @@
       </nuxt-link>
     </v-col>
 
-    <!-- Menu Desktop (espacé et légèrement à gauche) -->
+    <!-- Menu Desktop (centré) -->
     <div class="desktop-menu d-none d-md-flex">
       <nuxt-link v-for="item in menuItems" :key="item.text" :to="item.link" class="nav-link">
         {{ item.text }}
@@ -58,40 +58,43 @@ const menuItems = [
 </script>
 
 <style lang="css" scoped>
-/* Centrer le menu en desktop et l'amener un peu vers la gauche */
+/* Centrer le menu en desktop */
 .desktop-menu {
   display: flex;
-  gap: 80px;
-  /* Augmente l'espacement entre les éléments */
+  gap: 60px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
-
 
 /* Style des liens du menu */
 .nav-link {
   position: relative;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 400;
   color: white;
   text-decoration: none;
   padding: 5px 0;
-  transition: color 0.3s ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease-in-out;
 }
 
-/* Effet de survol : ligne orange qui part de gauche à droite */
+/* Effet de survol : ligne blanche qui part du centre */
 .nav-link::after {
   content: "";
   position: absolute;
-  left: 0;
+  left: 50%;
   bottom: -2px;
   width: 0;
-  height: 2px;
-  background-color: orange;
-  transition: width 0.3s ease-in-out;
+  height: 1px;
+  background-color: white;
+  transition: all 0.3s ease-in-out;
+  transform: translateX(-50%);
 }
 
 .nav-link:hover {
-  color: #ffcc80;
-  /* Légère variation de couleur */
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .nav-link:hover::after {

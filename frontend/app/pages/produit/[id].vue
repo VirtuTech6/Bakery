@@ -35,7 +35,7 @@
           class="mb-4"
         ></v-select>
         
-        <v-btn color="primary" block @click="addToCart">Ajouter au panier</v-btn>
+        <v-btn class="artisan-btn" block @click="addToCart">Ajouter au panier</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -81,4 +81,28 @@ const addToCart = () => {
   flex-direction: column;
   justify-content: center;
 }
+
+.artisan-btn {
+    background: #000000;
+    color: #ffffff;
+    font-size: 0.9rem;
+    padding: 12px 30px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 0;
+    border: 1px solid #000000;
+    transition: all 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+
+  .artisan-btn:hover {
+    background: #ffffff;
+    color: #000000;
+    transform: translateY(-2px);
+  }
 </style>
