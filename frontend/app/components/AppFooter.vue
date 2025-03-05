@@ -8,7 +8,7 @@
           <p>87 rue faidherbe, 62200</p>
 
           <h3>Contact</h3>
-          <p>📞 <a href="tel:+33123456789">01 23 45 67 89</a></p>
+          <p><a href="tel:+33123456789">01 23 45 67 89</a></p>
 
           <!-- Bouton Contactez-nous -->
           <v-btn class="contact-btn" to="/contact">
