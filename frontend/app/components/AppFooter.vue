@@ -41,43 +41,53 @@
 
 <style lang="css" scoped>
 .footer {
-  background-color: rgba(81, 42, 22, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   color: white;
   text-align: center;
-  padding: 10px 0;
+  padding: 20px 0;
 }
 
 .footer-info h3 {
-  font-size: 16px;
-  margin-bottom: 5px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .footer-info p {
   font-size: 14px;
-  margin: 2px 0;
+  margin: 4px 0;
+  opacity: 0.8;
 }
 
 .footer-info a {
   color: white;
   text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.footer-info a:hover {
+  opacity: 0.7;
 }
 
 .contact-btn {
-  margin-top: 8px;
-  transition: transform 0.3s ease-in-out;
-  /* Animation fluide */
-  background-color: orange;
+  margin-top: 15px;
+  transition: all 0.3s ease-in-out;
+  background-color: transparent !important;
   color: white;
-  font-size: 14px;
-  padding: 5px 15px;
-  font-weight: bold;
+  font-size: 13px;
+  padding: 8px 20px;
+  font-weight: 400;
   text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 1px solid white !important;
 }
 
 .contact-btn:hover {
-  background-color: #e69500;
-  transform: scale(1.1);
-  /* Zoom léger au survol */
+  background-color: white !important;
+  color: black !important;
+  transform: translateY(-2px);
 }
 
 .footer-map {
@@ -90,27 +100,25 @@
 .map-placeholder {
   width: 100%;
   height: 150px;
-  background: #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  color: #444;
-  border-radius: 8px;
+  background: #111;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .social-icons {
-  margin-top: 10px;
+  margin-top: 15px;
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .social-icons a {
   color: white;
-  transition: transform 0.3s;
+  opacity: 0.8;
+  transition: all 0.3s ease;
 }
 
 .social-icons a:hover {
-  transform: scale(1.1);
+  opacity: 1;
+  transform: translateY(-2px);
 }
 </style>
