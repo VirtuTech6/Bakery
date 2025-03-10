@@ -128,4 +128,19 @@ class ProductRepository extends ServiceEntityRepository
 
         return $product;
     }
+
+    /**
+     * Sauvegarde un produit dans la base de données
+     * @param Product $product Le produit à sauvegarder
+     * @param bool $flush Si true, exécute immédiatement la requête
+     * @return void
+     */
+    public function save(Product $product, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($product);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

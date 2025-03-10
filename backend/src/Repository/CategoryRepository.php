@@ -22,28 +22,18 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * Crée une nouvelle catégorie dans la base de données
-     * @param array $data Les données de la catégorie
-     * @return Category
+     * Sauvegarde une catégorie dans la base de données
+     * @param Category $category La catégorie à sauvegarder
+     * @param bool $flush Si true, exécute le flush immédiatement
+     * @return void
      */
-    public function create(array $data): Category
+    public function save(Category $category, bool $flush = false): void
     {
-        $category = new Category();
-        
-        if (isset($data['name'])) {
-            $category->setName($data['name']);
-        }
-        if (isset($data['description'])) {
-            $category->setDescription($data['description']);
-        }
-        if (isset($data['imageFile'])) {
-            $category->setImageFile($data['imageFile']);
-        }
-
         $this->getEntityManager()->persist($category);
-        $this->getEntityManager()->flush();
 
-        return $category;
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 
     public function remove(Category $category, bool $flush = false): void
@@ -53,28 +43,5 @@ class CategoryRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
-    }
-
-    /**
-     * Met à jour une catégorie dans la base de données
-     * @param Category $category La catégorie à mettre à jour
-     * @param array $data Les nouvelles données de la catégorie
-     * @return Category
-     */
-    public function update(Category $category, array $data): Category
-    {
-        if (isset($data['name'])) {
-            $category->setName($data['name']);
-        }
-        if (isset($data['description'])) {
-            $category->setDescription($data['description']);
-        }
-        if (isset($data['imageFile'])) {
-            $category->setImageFile($data['imageFile']);
-        }
-
-        $this->getEntityManager()->flush();
-
-        return $category;
     }
 }

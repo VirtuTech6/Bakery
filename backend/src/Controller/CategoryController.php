@@ -18,22 +18,60 @@ class CategoryController extends AbstractController
         private CategoryRepository $categoryRepository
     ) {}
 
+    private function validateCategoryData(array $data): array
+    {
+        $requiredFields = ['name', 'description'];
+        $missingFields = [];
+
+        foreach ($requiredFields as $field) {
+            if (empty($data[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (!empty($missingFields)) {
+            throw new \InvalidArgumentException('Champs manquants : ' . implode(', ', $missingFields));
+        }
+
+        return $data;
+    }
+
+    private function extractFormData(Request $request): array
+    {
+        $data = [
+            'name' => $request->request->get('name'),
+            'description' => $request->request->get('description')
+        ];
+
+        if (in_array(null, $data, true)) {
+            $content = $request->getContent();
+            foreach ($data as $key => $value) {
+                if ($value === null && preg_match('/name="' . $key . '"\s*(.*?)\s*--/', $content, $matches)) {
+                    $data[$key] = trim($matches[1]);
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    private function formatCategoryResponse(Category $category): array
+    {
+        return [
+            'id' => $category->getId(),
+            'name' => $category->getName(),
+            'description' => $category->getDescription(),
+            'imageName' => $category->getImageName(),
+            'imageUrl' => $category->getImageName() ? '/images/categories/' . $category->getImageName() : null
+        ];
+    }
+
     #[Route('', methods: ['GET'])]
     public function index(): JsonResponse
     {
         $categories = $this->categoryRepository->findAll();
-        
-        $categoriesData = array_map(function($category) {
-            return [
-                'id' => $category->getId(),
-                'name' => $category->getName(),
-                'description' => $category->getDescription(),
-                'imageName' => $category->getImageName(),
-                'imageUrl' => $category->getImageName() ? '/images/categories/' . $category->getImageName() : null
-            ];
-        }, $categories);
-
-        return $this->json($categoriesData);
+        $categoriesData = array_map([$this, 'formatCategoryResponse'], $categories);
+        return $this->json(['categories' => $categoriesData]);
     }
 
     #[Route('/{id}', methods: ['GET'])]
@@ -46,51 +84,66 @@ class CategoryController extends AbstractController
             return $this->json(['message' => 'Catégorie non trouvée'], Response::HTTP_NOT_FOUND);
         }
 
-        $categoryData = [
-            'id' => $category->getId(),
-            'name' => $category->getName(),
-            'description' => $category->getDescription(),
-            'imageName' => $category->getImageName(),
-            'imageUrl' => $category->getImageName() ? '/images/categories/' . $category->getImageName() : null
-        ];
-
-        return $this->json($categoryData);
+        return $this->json(['category' => $this->formatCategoryResponse($category)]);
     }
 
     #[Route('', methods: ['POST'])]
     #[IsGranted('ROLE_MANAGER')]
     public function create(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
-        
-        if ($request->files->has('image')) {
-            $data['imageFile'] = $request->files->get('image');
+        try {
+            $data = $this->extractFormData($request);
+            $this->validateCategoryData($data);
+
+            $category = new Category();
+            $category->setName($data['name']);
+            $category->setDescription($data['description']);
+            
+            if ($request->files->has('image')) {
+                $category->setImageFile($request->files->get('image'));
+            }
+            
+            $this->categoryRepository->save($category, true);
+
+            return $this->json([
+                'message' => 'Catégorie créée avec succès',
+                'category' => $this->formatCategoryResponse($category)
+            ], Response::HTTP_CREATED);
+        } catch (\InvalidArgumentException $e) {
+            return $this->json(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
-
-        $category = $this->categoryRepository->create($data);
-
-        return $this->json($category, Response::HTTP_CREATED);
     }
 
     #[Route('/{id}', methods: ['PUT'])]
     #[IsGranted('ROLE_MANAGER')]
     public function update(Request $request, int $id): JsonResponse
     {
-        $category = $this->categoryRepository->find($id);
-        
-        if (!$category) {
-            return $this->json(['message' => 'Catégorie non trouvée'], Response::HTTP_NOT_FOUND);
+        try {
+            $category = $this->categoryRepository->find($id);
+            
+            if (!$category) {
+                return $this->json(['message' => 'Catégorie non trouvée'], Response::HTTP_NOT_FOUND);
+            }
+
+            $data = $this->extractFormData($request);
+            $this->validateCategoryData($data);
+
+            $category->setName($data['name']);
+            $category->setDescription($data['description']);
+            
+            if ($request->files->has('image')) {
+                $category->setImageFile($request->files->get('image'));
+            }
+            
+            $this->categoryRepository->save($category, true);
+
+            return $this->json([
+                'message' => 'Catégorie mise à jour avec succès',
+                'category' => $this->formatCategoryResponse($category)
+            ]);
+        } catch (\InvalidArgumentException $e) {
+            return $this->json(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
-
-        $data = json_decode($request->getContent(), true);
-        
-        if ($request->files->has('image')) {
-            $data['imageFile'] = $request->files->get('image');
-        }
-
-        $category = $this->categoryRepository->update($category, $data);
-
-        return $this->json($category);
     }
 
     #[Route('/{id}', methods: ['DELETE'])]
@@ -104,7 +157,6 @@ class CategoryController extends AbstractController
         }
 
         $this->categoryRepository->remove($category, true);
-
-        return $this->json(null, Response::HTTP_NO_CONTENT);
+        return $this->json(['message' => 'Catégorie supprimée avec succès']);
     }
 }
