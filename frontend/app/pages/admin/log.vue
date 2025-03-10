@@ -58,43 +58,50 @@ const rules = {
 
 const handleLogin = async () => {
   const { valid } = await form.value.validate();
-  if (valid) {
-    loading.value = true;
-    try {
-      const { data, error } = await useFetch('/api/login', {
-        baseURL: 'http://localhost:8000',
-        method: 'POST',
-        body: {
-          username: email.value,
-          password: password.value,
-        },
-      });
+  if (!valid) return;
 
-      if (error.value) {
-        throw new Error(error.value.message || 'Erreur de connexion');
-      }
+  loading.value = true;
+  try {
+    const { data, error } = await useFetch('/api/login', {
+      baseURL: 'http://localhost:8000',
+      method: 'POST',
+      body: {
+        username: email.value,
+        password: password.value,
+      },
+    });
 
-      if (data.value && data.value.token) {
-        // Utilisation du composable useState de Nuxt pour la persistance
-        const token = useState('token');
-        token.value = data.value.token;
-        
-        // Stockage dans le localStorage uniquement côté client
-        if (process.client) {
-          localStorage.setItem('token', data.value.token);
+    if (error.value) throw new Error(error.value.message || 'Erreur de connexion');
+
+    if (data.value?.token) {
+      localStorage.setItem('token', data.value.token);
+      console.log('Token:', data.value.token);
+      
+      const config = useRuntimeConfig();
+      config.public.token = data.value.token;
+      
+      // Récupérer les informations de l'utilisateur
+      try {
+        const { data: userData } = await useFetch('/api/user/me', {
+          baseURL: 'http://localhost:8000',
+          headers: {
+            Authorization: `Bearer ${data.value.token}`
+          }
+        });
+
+        if (userData.value) {
+          useState('user').value = userData.value;
         }
-        
-        // Configuration du token pour les futures requêtes
-        const config = useRuntimeConfig();
-        config.public.token = data.value.token;
-        
-        await router.push('/admin/panel');
+      } catch (error) {
+        console.error('Erreur lors de la récupération des informations utilisateur:', error);
       }
-    } catch (error) {
-      alert(error.message || 'Erreur de connexion au serveur');
-    } finally {
-      loading.value = false;
+      
+      await router.push('/admin/dashboard');
     }
+  } catch (error) {
+    alert(error.message || 'Erreur de connexion au serveur');
+  } finally {
+    loading.value = false;
   }
 };
 </script>
