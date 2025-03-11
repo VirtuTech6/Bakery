@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/categories')]
+
 class CategoryController extends AbstractController
 {
     public function __construct(
@@ -66,7 +66,7 @@ class CategoryController extends AbstractController
         ];
     }
 
-    #[Route('', methods: ['GET'])]
+    #[Route('/api/public/categories', methods: ['GET'])]
     public function index(): JsonResponse
     {
         $categories = $this->categoryRepository->findAll();
@@ -74,7 +74,7 @@ class CategoryController extends AbstractController
         return $this->json(['categories' => $categoriesData]);
     }
 
-    #[Route('/{id}', methods: ['GET'])]
+    #[Route('/api/categories/{id}', methods: ['GET'])]
     #[IsGranted('ROLE_MANAGER')]
     public function show(int $id): JsonResponse
     {
@@ -87,7 +87,7 @@ class CategoryController extends AbstractController
         return $this->json(['category' => $this->formatCategoryResponse($category)]);
     }
 
-    #[Route('', methods: ['POST'])]
+    #[Route('/api/categories', methods: ['POST'])]
     #[IsGranted('ROLE_MANAGER')]
     public function create(Request $request): JsonResponse
     {
@@ -114,7 +114,7 @@ class CategoryController extends AbstractController
         }
     }
 
-    #[Route('/{id}', methods: ['PUT'])]
+    #[Route('/api/categories/{id}', methods: ['PUT'])]
     #[IsGranted('ROLE_MANAGER')]
     public function update(Request $request, int $id): JsonResponse
     {
@@ -146,7 +146,7 @@ class CategoryController extends AbstractController
         }
     }
 
-    #[Route('/{id}', methods: ['DELETE'])]
+    #[Route('/api/categories/{id}', methods: ['DELETE'])]
     #[IsGranted('ROLE_MANAGER')]
     public function delete(int $id): JsonResponse
     {

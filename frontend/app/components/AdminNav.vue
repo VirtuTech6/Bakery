@@ -20,13 +20,18 @@
         </v-list-item>
         <v-list-item>
           <v-list-item-title>
+            <NuxtLink to="/admin/orders">Commandes</NuxtLink>
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>
             <NuxtLink to="/admin/products">Produits</NuxtLink>
           </v-list-item-title>
         </v-list-item>
         <v-list-item>
-          <v-list-item-title> 
-            <NuxtLink to="/admin/categories">Categories</NuxtLink>
-          </v-list-item-title>
+            <v-list-item-title> 
+              <NuxtLink to="/admin/categories">Categories</NuxtLink>
+            </v-list-item-title>
         </v-list-item>
         <v-list-item @click="handleLogout">
           <v-list-item-title>

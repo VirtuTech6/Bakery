@@ -13,11 +13,15 @@
     <!-- Section Filtres et Produits -->
     <section class="products-section">
       <div class="container">
+        <div v-if="loading">Chargement des produits...</div>
+        <div v-if="error">{{ error }}</div>
         <!-- Filtres -->
         <div class="filters-container">
           <v-select
             v-model="selectedCategory"
             :items="categories"
+            item-title="name"
+            item-value="id"
             label="Catégorie"
             class="filter-select"
             hide-details
@@ -37,7 +41,7 @@
         <div class="products-grid">
           <div v-for="product in filteredProducts" :key="product.id" class="product-card">
             <nuxt-link :to="`/produit/${product.id}`" class="artisan-image-link">
-              <v-img :src="product.image" :alt="product.name" class="product-image"></v-img>
+              <v-img :src="'http://localhost:8000/'+product.imageUrl" :alt="product.name" class="product-image"></v-img>
             </nuxt-link>
             <div class="product-info">
               <h3>{{ product.name }}</h3>
@@ -60,40 +64,70 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const categories = [
-  'Tous',
-  'Pains',
-  'Viennoiseries',
-  'Pâtisseries',
-  'Sandwichs'
-]
+// Constantes pour l'API
+const API_URL = 'http://localhost:8000/api/public'
+const API_KEY = 'd8aa3cc84418f09f1257c42cd8118a746cc2b7314310bc55f70562dd3e725c57'
+
+// États pour les catégories
+const categories = ref([{ id: 'Tous', name: 'Tous' }]) 
+
+// États pour les produits
+const products = ref([])
+const loading = ref(false)
+const error = ref(null)
 
 const selectedCategory = ref('Tous')
 const searchQuery = ref('')
 
-// Initialiser le filtre de catégorie depuis l'URL
-onMounted(() => {
-  const categoryFromUrl = route.query.category
-  if (categoryFromUrl && categories.includes(categoryFromUrl)) {
-    selectedCategory.value = categoryFromUrl
+// Méthode pour récupérer les catégories
+const fetchCategories = async () => {
+  loading.value = true
+  try {
+    const response = await fetch(`${API_URL}/categories`, {
+      headers: { 'x-api-key': API_KEY }
+    })
+    if (!response.ok) throw new Error('Erreur lors de la récupération des catégories')
+    const data = await response.json()
+    categories.value = [{ id: 'Tous', name: 'Tous' }, ...data.categories]
+  } catch (err) {
+    console.error('Erreur lors de la récupération des catégories:', err)
+  } finally {
+    loading.value = false
   }
-})
+}
 
-const products = ref([
-  
-    { id: 1, name: 'Pain de campagne', description: 'Pain traditionnel à la mie dense et à la croûte croustillante, fabriqué avec de la farine de blé et de seigle.', price: 2.5, image: '/produits/paindecampagne.jpeg', category: 'Pains', popular: true },
-    { id: 2, name: 'Brioche', description: 'Pâtisserie moelleuse et légère au beurre, parfaite pour le petit-déjeuner ou le goûter.', price: 3.2, image: '/produits/brioche.jpeg', category: 'Viennoiseries', popular: false },
-    { id: 3, name: 'Chocolatine', description: 'Viennoiserie feuilletée garnie de deux barres de chocolat noir, croustillante à l\'extérieur et fondante à l\'intérieur.', price: 1.8, image: '/produits/painauchocolat.jpeg', category: 'Viennoiseries', popular: true },
-    { id: 4, name: 'Fougasse', description: 'Le classique sandwich français avec du jambon blanc, du beurre de qualité et une baguette fraîche et croustillante.', price: 4.5, image: '/produits/fougasse.jpeg', category: 'Sandwichs', popular: false },
-])
+// Méthode pour récupérer les produits
+const fetchProducts = async () => {
+  loading.value = true
+  try {
+    const response = await fetch(`${API_URL}/products`, {
+      headers: { 'x-api-key': API_KEY }
+    })
+    if (!response.ok) throw new Error('Erreur lors de la récupération des produits')
+    const data = await response.json()
+    products.value = data.products
+  } catch (err) {
+    console.error('Erreur lors de la récupération des produits:', err)
+    error.value = 'Erreur lors de la récupération des produits'
+  } finally {
+    loading.value = false
+  }
+}
 
+// Filtrer les produits en fonction de la catégorie et de la recherche
 const filteredProducts = computed(() => {
   return products.value.filter(product => {
-    const matchesCategory = selectedCategory.value === 'Tous' || product.category === selectedCategory.value
+    const matchesCategory = selectedCategory.value === 'Tous' || product.category.id === selectedCategory.value
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchQuery.value.toLowerCase())
+                           product.description.toLowerCase().includes(searchQuery.value.toLowerCase())
     return matchesCategory && matchesSearch
   })
+})
+
+// Appeler fetchCategories lors du montage du composant
+onMounted(() => {
+  fetchCategories()
+  fetchProducts()
 })
 
 const filterProducts = () => {

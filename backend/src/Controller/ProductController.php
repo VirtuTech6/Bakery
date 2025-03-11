@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Repository\CategoryRepository;
 
-#[Route('/api/products')]
 class ProductController extends AbstractController
 {
     private function validateProductData(array $data): array
@@ -73,7 +72,7 @@ class ProductController extends AbstractController
         ];
     }
 
-    #[Route('', name: 'get_products', methods: ['GET'])]
+    #[Route('/api/public/products', name: 'get_products', methods: ['GET'])]
     public function getAllProducts(ProductRepository $productRepository): JsonResponse
     {
         $products = $productRepository->findAll();
@@ -82,7 +81,7 @@ class ProductController extends AbstractController
         return $this->json(['products' => $productsData]);
     }
 
-    #[Route('/{id}', name: 'get_product', methods: ['GET'])]
+    #[Route('/api/public/products/{id}', name: 'get_product', methods: ['GET'])]
     public function getProduct(int $id, ProductRepository $productRepository): JsonResponse
     {
         $product = $productRepository->findOneById($id);
@@ -94,7 +93,7 @@ class ProductController extends AbstractController
         return $this->json(['product' => $this->formatProductResponse($product)]);
     }
 
-    #[Route('', name: 'create_product', methods: ['POST'])]
+    #[Route('/api/products', name: 'create_product', methods: ['POST'])]
     #[IsGranted('ROLE_MANAGER')]
     public function createProduct(
         Request $request, 
@@ -135,7 +134,7 @@ class ProductController extends AbstractController
         }
     }
 
-    #[Route('/{id}', name: 'update_product', methods: ['PUT'])]
+    #[Route('/api/products/{id}', name: 'update_product', methods: ['POST'])]
     #[IsGranted('ROLE_MANAGER')]
     public function updateProduct(
         int $id,
@@ -167,7 +166,10 @@ class ProductController extends AbstractController
             $product->setCategory($category);
             
             if ($request->files->has('image')) {
-                $product->setImageFile($request->files->get('image'));
+                $imageFile = $request->files->get('image');
+                if ($imageFile) {
+                    $product->setImageFile($imageFile);
+                }
             }
             
             $productRepository->save($product, true);
@@ -181,7 +183,7 @@ class ProductController extends AbstractController
         }
     }
 
-    #[Route('/{id}', name: 'delete_product', methods: ['DELETE'])]
+    #[Route('/api/products/{id}', name: 'delete_product', methods: ['DELETE'])]
     #[IsGranted('ROLE_MANAGER')]
     public function deleteProduct(int $id, ProductRepository $productRepository): JsonResponse
     {
