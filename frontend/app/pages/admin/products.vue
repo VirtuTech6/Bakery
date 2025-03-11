@@ -273,6 +273,7 @@ definePageMeta({
 
 // Constantes
 const API_BASE_URL = 'http://localhost:8000/api';
+const API_KEY = 'd8aa3cc84418f09f1257c42cd8118a746cc2b7314310bc55f70562dd3e725c57';
 const DEFAULT_PRODUCT = {
   name: '',
   description: '',
@@ -327,8 +328,10 @@ const fetchProducts = async () => {
   try {
     loading.value = true;
     error.value = null;
-    const response = await fetch(`${API_BASE_URL}/products`, {
-      headers: getAuthHeaders()
+    const response = await fetch(`${API_BASE_URL}/public/products`, {
+      headers: {
+        'x-api-key': API_KEY
+      }
     });
     
     if (!response.ok) throw new Error('Erreur lors de la récupération des produits');
@@ -347,8 +350,10 @@ const fetchProducts = async () => {
 
 const fetchCategories = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/categories`, {
-      headers: getAuthHeaders()
+    const response = await fetch(`${API_BASE_URL}/public/categories`, {
+      headers: {
+        'x-api-key': API_KEY
+      }
     });
     
     if (!response.ok) throw new Error('Erreur lors de la récupération des catégories');
@@ -400,7 +405,7 @@ const saveProduct = async (product) => {
     });
 
     const response = await fetch(`${API_BASE_URL}/products/${product.id}`, {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
