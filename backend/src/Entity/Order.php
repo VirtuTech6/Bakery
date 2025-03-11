@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
@@ -21,6 +23,9 @@ class Order
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\OneToMany(mappedBy: 'order', targetEntity: OrderProduct::class, orphanRemoval: true)]
+    private Collection $orderProducts;
+
     #[ORM\Column(length: 50)]
     private ?string $status = null;
 
@@ -32,6 +37,12 @@ class Order
 
     #[ORM\Column(type: 'text')]
     private ?string $billingAddress = null;
+
+    public function __construct()
+    {
+        $this->orderProducts = new ArrayCollection();
+        $this->date = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -57,6 +68,36 @@ class Order
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderProduct>
+     */
+    public function getOrderProducts(): Collection
+    {
+        return $this->orderProducts;
+    }
+
+    public function addOrderProduct(OrderProduct $orderProduct): self
+    {
+        if (!$this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts->add($orderProduct);
+            $orderProduct->setOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderProduct(OrderProduct $orderProduct): self
+    {
+        if ($this->orderProducts->removeElement($orderProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($orderProduct->getOrder() === $this) {
+                $orderProduct->setOrder(null);
+            }
+        }
+
         return $this;
     }
 
